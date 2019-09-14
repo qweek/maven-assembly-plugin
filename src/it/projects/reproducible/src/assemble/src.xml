@@ -40,6 +40,8 @@ under the License.
     <file>
       <source>src/main/resources/executable.txt</source>
       <fileMode>0755</fileMode>
+      <filtered>true</filtered>
+      <lineEnding>lf</lineEnding>
     </file>
   </files>
 </assembly>
