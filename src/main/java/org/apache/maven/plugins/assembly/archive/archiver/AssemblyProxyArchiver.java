@@ -44,6 +44,8 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -1027,6 +1029,30 @@ public class AssemblyProxyArchiver
         {
             return false;
         }
+    }
+
+    @Override
+    public void setLastModifiedDate( Date lastModifiedDate )
+    {
+        delegate.setLastModifiedDate( lastModifiedDate );
+    }
+
+    @Override
+    public Date getLastModifiedDate()
+    {
+        return delegate.getLastModifiedDate();
+    }
+
+    @Override
+    public void setFilenameComparator( Comparator<String> filenameComparator )
+    {
+        delegate.setFilenameComparator( filenameComparator );
+    }
+
+    @Override
+    public void configureReproducible( int sourceDateEpoch )
+    {
+        delegate.configureReproducible( sourceDateEpoch );
     }
 
 }

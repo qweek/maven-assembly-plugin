@@ -390,6 +390,16 @@ public abstract class AbstractAssemblyMojo
     @Parameter
     private List<String> delimiters;
 
+    /**
+     * Value like SOURCE_DATE_EPOCH as <a href="https://reproducible-builds.org/specs/source-date-epoch/">defined in
+     * Reproducible Builds</a>: a UNIX timestamp, defined as the number of seconds, excluding leap seconds, since 01 Jan
+     * 1970 00:00:00 UTC.
+     *
+     * @since 3.2.0
+     */
+    @Parameter( name = "source-date-epoch" )
+    private int sourceDateEpoch;
+
     public static FixedStringSearchInterpolator mainProjectInterpolator( MavenProject mainProject )
     {
         if ( mainProject != null )
@@ -472,7 +482,7 @@ public abstract class AbstractAssemblyMojo
                 {
                     final File destFile =
                         assemblyArchiver.createArchive( assembly, fullName, format,
-                            this, isRecompressZippedFiles(), getMergeManifestMode() );
+                            this, isRecompressZippedFiles(), getMergeManifestMode(), sourceDateEpoch );
 
                     final MavenProject project = getProject();
                     final String type = project.getArtifact().getType();

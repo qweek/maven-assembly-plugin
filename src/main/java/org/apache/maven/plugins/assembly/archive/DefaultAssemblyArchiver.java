@@ -134,7 +134,7 @@ public class DefaultAssemblyArchiver
     @Override
     public File createArchive( final Assembly assembly, final String fullName, final String format,
                                final AssemblerConfigurationSource configSource, boolean recompressZippedFiles,
-                               String mergeManifestMode )
+                               String mergeManifestMode, int sourceDateEpoch )
         throws ArchiveCreationException, AssemblyFormattingException, InvalidAssemblerConfigurationException
     {
         validate( assembly );
@@ -172,7 +172,7 @@ public class DefaultAssemblyArchiver
 
             final Archiver archiver =
                 createArchiver( format, assembly.isIncludeBaseDirectory(), basedir, configSource, containerHandlers,
-                                recompressZippedFiles, mergeManifestMode );
+                                recompressZippedFiles, mergeManifestMode, sourceDateEpoch );
 
             archiver.setDestFile( destFile );
 
@@ -284,7 +284,7 @@ public class DefaultAssemblyArchiver
     protected Archiver createArchiver( final String format, final boolean includeBaseDir, final String finalName,
                                        final AssemblerConfigurationSource configSource,
                                        final List<ContainerDescriptorHandler> containerHandlers,
-                                       boolean recompressZippedFiles, String mergeManifestMode )
+                                       boolean recompressZippedFiles, String mergeManifestMode, int sourceDateEpoch )
         throws NoSuchArchiverException
     {
         Archiver archiver;
@@ -345,6 +345,12 @@ public class DefaultAssemblyArchiver
         archiver.setUseJvmChmod( configSource.isUpdateOnly() );
         archiver.setIgnorePermissions( configSource.isIgnorePermissions() );
         archiver.setForced( !configSource.isUpdateOnly() );
+
+        if ( sourceDateEpoch != 0 )
+        {
+            // configure for Reproducible Builds based on source date epoch value
+            archiver.configureReproducible( sourceDateEpoch );
+        }
 
         return archiver;
     }
