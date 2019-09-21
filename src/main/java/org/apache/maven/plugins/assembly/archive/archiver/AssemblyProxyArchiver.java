@@ -1055,4 +1055,52 @@ public class AssemblyProxyArchiver
         delegate.configureReproducible( sourceDateEpoch );
     }
 
+    @Override
+    public void setOverrideUid( int uid )
+    {
+        delegate.setOverrideUid( uid );
+    }
+
+    @Override
+    public void setOverrideUserName( String userName )
+    {
+        delegate.setOverrideUserName( userName );
+    }
+
+    @Override
+    public int getOverrideUid()
+    {
+        return delegate.getOverrideUid();
+    }
+
+    @Override
+    public String getOverrideUserName()
+    {
+        return delegate.getOverrideUserName();
+    }
+
+    @Override
+    public void setOverrideGid( int gid )
+    {
+        delegate.setOverrideGid( gid );
+    }
+
+    @Override
+    public void setOverrideGroupName( String groupName )
+    {
+        delegate.setOverrideGroupName( groupName );
+    }
+
+    @Override
+    public int getOverrideGid()
+    {
+        return delegate.getOverrideGid();
+    }
+
+    @Override
+    public String getOverrideGroupName()
+    {
+        return delegate.getOverrideGroupName();
+    }
+
 }
