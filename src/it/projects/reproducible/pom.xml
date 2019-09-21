@@ -36,6 +36,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <source-date-epoch>1566419331</source-date-epoch>
   </properties>
 
   <build>
@@ -47,7 +48,6 @@
           <descriptors>
             <descriptor>src/assemble/src.xml</descriptor>
           </descriptors>
-          <source-date-epoch>1566419331</source-date-epoch>
         </configuration>
       </plugin>
       <plugin>

@@ -397,7 +397,7 @@ public abstract class AbstractAssemblyMojo
      *
      * @since 3.2.0
      */
-    @Parameter( name = "source-date-epoch" )
+    @Parameter( name = "source-date-epoch", defaultValue = "${source-date-epoch}" )
     private int sourceDateEpoch;
 
     public static FixedStringSearchInterpolator mainProjectInterpolator( MavenProject mainProject )
