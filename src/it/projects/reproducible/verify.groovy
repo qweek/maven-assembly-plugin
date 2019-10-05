@@ -25,6 +25,6 @@ File deployDir = new File( basedir, 'target/repo/org/apache/maven/its/reproducib
 
 assert deployDir.exists()
 
-assert new File( deployDir, 'reproducible-1.0-src.zip.sha1' ).text == '079d0af3f42cd8cd3faad6b49547298cf8a3eb39'
-assert new File( deployDir, 'reproducible-1.0-src.tar.sha1' ).text == '6433b2101247b3686faade1f4e81c972dbfe6d2f'
-assert new File( deployDir, 'reproducible-1.0-src.jar.sha1' ).text == '1bc78c1141aae276dcaef36c2a336cbb6014b220'
+assert new File( deployDir, 'reproducible-1.0-src.zip.sha1' ).text == '5ce34fc133d47cbc9c81195877dbe10b9ec7d864'
+assert new File( deployDir, 'reproducible-1.0-src.tar.sha1' ).text == '0b9dc1da069705a93b4954a198c18bd248822bf8'
+assert new File( deployDir, 'reproducible-1.0-src.jar.sha1' ).text == '780f9c7502b71d073ca4c8b3be77c0d435abe2fe'

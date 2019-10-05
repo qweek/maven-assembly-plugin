@@ -73,6 +73,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -134,7 +135,7 @@ public class DefaultAssemblyArchiver
     @Override
     public File createArchive( final Assembly assembly, final String fullName, final String format,
                                final AssemblerConfigurationSource configSource, boolean recompressZippedFiles,
-                               String mergeManifestMode, int sourceDateEpoch )
+                               String mergeManifestMode, Date outputTimestamp )
         throws ArchiveCreationException, AssemblyFormattingException, InvalidAssemblerConfigurationException
     {
         validate( assembly );
@@ -172,7 +173,7 @@ public class DefaultAssemblyArchiver
 
             final Archiver archiver =
                 createArchiver( format, assembly.isIncludeBaseDirectory(), basedir, configSource, containerHandlers,
-                                recompressZippedFiles, mergeManifestMode, sourceDateEpoch );
+                                recompressZippedFiles, mergeManifestMode, outputTimestamp );
 
             archiver.setDestFile( destFile );
 
@@ -284,7 +285,7 @@ public class DefaultAssemblyArchiver
     protected Archiver createArchiver( final String format, final boolean includeBaseDir, final String finalName,
                                        final AssemblerConfigurationSource configSource,
                                        final List<ContainerDescriptorHandler> containerHandlers,
-                                       boolean recompressZippedFiles, String mergeManifestMode, int sourceDateEpoch )
+                                       boolean recompressZippedFiles, String mergeManifestMode, Date outputTimestamp )
         throws NoSuchArchiverException
     {
         Archiver archiver;
@@ -346,10 +347,10 @@ public class DefaultAssemblyArchiver
         archiver.setIgnorePermissions( configSource.isIgnorePermissions() );
         archiver.setForced( !configSource.isUpdateOnly() );
 
-        if ( sourceDateEpoch != 0 )
+        // configure for Reproducible Builds based on outputTimestamp value
+        if ( outputTimestamp != null )
         {
-            // configure for Reproducible Builds based on source date epoch value
-            archiver.configureReproducible( sourceDateEpoch );
+            archiver.configureReproducible( outputTimestamp );
         }
 
         return archiver;

@@ -20,6 +20,7 @@ package org.apache.maven.plugins.assembly.mojos;
  */
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
+import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
@@ -50,6 +51,7 @@ import org.codehaus.plexus.interpolation.fixed.PropertiesBasedValueSource;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -391,14 +393,12 @@ public abstract class AbstractAssemblyMojo
     private List<String> delimiters;
 
     /**
-     * Value like SOURCE_DATE_EPOCH as <a href="https://reproducible-builds.org/specs/source-date-epoch/">defined in
-     * Reproducible Builds</a>: a UNIX timestamp, defined as the number of seconds, excluding leap seconds, since 01 Jan
-     * 1970 00:00:00 UTC.
+     * Timestamp for reproducible archive entries.
      *
      * @since 3.2.0
      */
-    @Parameter( name = "source-date-epoch", defaultValue = "${source-date-epoch}" )
-    private int sourceDateEpoch;
+    @Parameter( defaultValue = "${project.build.outputTimestamp}" )
+    private String outputTimestamp;
 
     public static FixedStringSearchInterpolator mainProjectInterpolator( MavenProject mainProject )
     {
@@ -460,6 +460,9 @@ public abstract class AbstractAssemblyMojo
         // TODO: include dependencies marked for distribution under certain formats
         // TODO: how, might we plug this into an installer, such as NSIS?
 
+        MavenArchiver mavenArchiver = new MavenArchiver();
+        Date outputDate = mavenArchiver.parseOutputTimestamp( outputTimestamp );
+
         boolean warnedAboutMainProjectArtifact = false;
         for ( final Assembly assembly : assemblies )
         {
@@ -482,7 +485,7 @@ public abstract class AbstractAssemblyMojo
                 {
                     final File destFile =
                         assemblyArchiver.createArchive( assembly, fullName, format,
-                            this, isRecompressZippedFiles(), getMergeManifestMode(), sourceDateEpoch );
+                            this, isRecompressZippedFiles(), getMergeManifestMode(), outputDate );
 
                     final MavenProject project = getProject();
                     final String type = project.getArtifact().getType();

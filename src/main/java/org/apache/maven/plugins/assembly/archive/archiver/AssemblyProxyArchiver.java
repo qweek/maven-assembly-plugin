@@ -1050,9 +1050,9 @@ public class AssemblyProxyArchiver
     }
 
     @Override
-    public void configureReproducible( int sourceDateEpoch )
+    public void configureReproducible( Date outputTimestamp )
     {
-        delegate.configureReproducible( sourceDateEpoch );
+        delegate.configureReproducible( outputTimestamp );
     }
 
     @Override
